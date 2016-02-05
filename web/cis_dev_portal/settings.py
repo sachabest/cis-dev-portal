@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'shibboleth',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -48,6 +49,8 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'shibboleth.middleware.ShibbolethRemoteUserMiddleware',
 ]
 
 ROOT_URLCONF = 'cis_dev_portal.urls'
@@ -77,12 +80,14 @@ WSGI_APPLICATION = 'cis_dev_portal.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'HOST': 'db',
-        'PORT': 5432,
+        'NAME': os.environ['DB_NAME'],
+        'USER': os.environ['DB_USER'],
+        'PASSWORD': os.environ['DB_PASS'],
+        'HOST': os.environ['DB_SERVICE'],
+        'PORT': os.environ['DB_PORT']
     }
 }
+
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
 
@@ -101,6 +106,21 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = (
+  'shibboleth.backends.ShibbolethRemoteUserBackend',
+)
+
+SHIBBOLETH_ATTRIBUTE_MAP = {
+   "shib-user": (True, "username"),
+   "shib-given-name": (True, "first_name"),
+   "shib-sn": (True, "last_name"),
+   "shib-mail": (False, "email"),
+}
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+   'shibboleth.context_processors.login_link',
+   'shibboleth.context_processors.logout_link'
+)
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
