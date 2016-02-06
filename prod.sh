@@ -3,5 +3,6 @@ eval "$(docker-machine env production)"
 docker-compose build
 docker-compose -f production.yml up -d
 docker-compose run web /usr/local/bin/python manage.py migrate
+docker-compose restart
 eval "$(docker-machine env default)"
 echo 'switching back to local env'

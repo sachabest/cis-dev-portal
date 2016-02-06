@@ -9,19 +9,23 @@ web:
   volumes:
     - /usr/src/app/static
   env_file: .env
-  command: /usr/local/bin/gunicorn cis_dev_portal.wsgi:application -w 2 -b :8000
+  command: /usr/local/bin/gunicorn cis_dev_portal.wsgi:application -w 2 -b 0.0.0.0:8000
 
 nginx:
   restart: always
   build: ./nginx/
+  env_file: .env
   ports:
+    - "443:443"
     - "80:80"
+    - "9090:9090"
   volumes:
     - /www/static
   volumes_from:
     - web
   links:
     - web:web
+  # command: /etc/runner.sh
 
 postgres:
   restart: always

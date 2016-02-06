@@ -12,8 +12,11 @@ web:
 nginx:
   restart: always
   build: ./nginx/
+  env_file: .env
   ports:
+    - "443:443"
     - "80:80"
+    - "9090:9090"
   volumes:
     - /www/static
   volumes_from:
