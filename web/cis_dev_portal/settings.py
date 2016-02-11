@@ -111,9 +111,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# AUTHENTICATION_BACKENDS = (
-#   'shibboleth.backends.ShibbolethRemoteUserBackend',
-# )
+AUTHENTICATION_BACKENDS = (
+  'shibboleth.backends.ShibbolethRemoteUserBackend',
+)
+
+LOGIN_URL = 'https://weblogin.pennkey.upenn.edu/login'
 
 SHIBBOLETH_ATTRIBUTE_MAP = {
    "shib-user": (True, "username"),
