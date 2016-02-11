@@ -27,10 +27,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+ADMINS = [
+    ['sachab', 'sachab@seas.upenn.edu'],
+]
 
 # Application definition
 
 INSTALLED_APPS = [
+    'dashboard.apps.DashboardConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'shibboleth',
+    'bootstrap3',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -106,9 +111,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTHENTICATION_BACKENDS = (
-  'shibboleth.backends.ShibbolethRemoteUserBackend',
-)
+# AUTHENTICATION_BACKENDS = (
+#   'shibboleth.backends.ShibbolethRemoteUserBackend',
+# )
 
 SHIBBOLETH_ATTRIBUTE_MAP = {
    "shib-user": (True, "username"),
@@ -140,3 +145,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = '/static/'
+
+# SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+# SESSION_SAVE_EVERY_REQUEST = True
+# SESSION_COOKIE_AGE = 86400 # sec
+# SESSION_COOKIE_DOMAIN = None
+# SESSION_COOKIE_NAME = 'CISDEVSESSIONID'
+# SESSION_COOKIE_SECURE = False
+# SESSION_ENGINE = 'django.contrib.sessions.backends.db'
