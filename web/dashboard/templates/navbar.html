@@ -1,15 +1,32 @@
-(% load boostrap %)
+{% load bootstrap3 %}
+{% load staticfiles %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+<script type="text/javascript" src={% static "admin/js/jquery.js" %}/>
+{% bootstrap_javascript %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
 
 <nav class="navbar navbar-default">
     <div class="navbar-header">
-        <a href="/" class="navbar-barnd">CIS Dev Portal</a>
+        <a href="/" class="navbar-brand">CIS Dev Portal</a>
     </div>
     <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-            <li 
             <li ng-repeat="link in links">
                 <a href="" ng-click="link.url">{{link.name}}</a>
             </li>
         </ul>
-  </div>
+        <ul class="nav navbar-nav navbar-right">
+            {% if user.is_authenticated %}
+                <li><img src={{ user.avatar }} width=80 height=80></li>
+                <li>{{ user.displayName }}</li>
+            {% else %}
+                <li><a href="/login">Log In</a></li>
+            {% endif %}
+        </ul>
+    </div>
 </nav>
+
