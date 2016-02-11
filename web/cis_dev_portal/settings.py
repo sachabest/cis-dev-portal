@@ -115,7 +115,7 @@ AUTHENTICATION_BACKENDS = (
   'shibboleth.backends.ShibbolethRemoteUserBackend',
 )
 
-LOGIN_URL = 'https://weblogin.pennkey.upenn.edu/login'
+LOGIN_URL = 'https://idp.pennkey.upenn.edu/idp/shibboleth'
 
 SHIBBOLETH_ATTRIBUTE_MAP = {
    "shib-user": (True, "username"),
