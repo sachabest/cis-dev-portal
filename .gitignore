@@ -138,5 +138,7 @@ target/
 #Ipython Notebook
 .ipynb_checkpoints
 
+*.crt
+*.key
 # pyenv
 .python-version

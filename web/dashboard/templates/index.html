@@ -1,4 +1,45 @@
 {% include "navbar.html" %}
 
 <div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>My Projects</h2>
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <td>Group Number</td>
+                        <td>Group Name</td>
+                        <td>Students</td>
+                        <td>Client</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if not groups %}
+                        <tr>
+                            <td colspan=4>You are not currently managing any groups.</td>
+                        </tr>
+                    {% endif %}
+                    {% for group in groups %}
+                        <tr>
+                            <td>{{ group.number }}</td>
+                            <td>{{ group.name }}</td>
+                            <td>
+                                {% for student in members %}
+                                    <a href="{{student.github}}">{{student.first_name}}</a> 
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {{ group.client.first_name}} {{group.client.last_name}}
+                                <a href="mailto://{{group.client.email}}">{{group.client.email}}</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <h2>Sprint Information</h2>
+            
+        </div>
+    </div>
 </div>
