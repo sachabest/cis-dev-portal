@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
-import os
+import os, sys, logging
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -42,7 +42,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'shibboleth',
+    # 'djng',
     'bootstrap3',
+    # 'social.apps.django_app.default',
+
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -52,9 +55,9 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'django.contrib.auth.middleware.RemoteUserMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'shibboleth.middleware.ShibbolethRemoteUserMiddleware',
 ]
 
@@ -71,6 +74,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'shibboleth.context_processors.login_link',
+                'shibboleth.context_processors.logout_link',
             ],
         },
     },
@@ -112,47 +117,51 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTHENTICATION_BACKENDS = (
-  'shibboleth.backends.ShibbolethRemoteUserBackend',
+    'shibboleth.backends.ShibbolethRemoteUserBackend',
+    'django.contrib.auth.backends.ModelBackend',
+    # 'social.backends.github.GitHubOAuth',
 )
 
-LOGIN_URL = 'https://idp.pennkey.upenn.edu/idp/shibboleth'
-
-SHIBBOLETH_ATTRIBUTE_MAP = {
-   "shib-user": (True, "username"),
-   "shib-given-name": (True, "first_name"),
-   "shib-sn": (True, "last_name"),
-   "shib-mail": (False, "email"),
+LOGGING = {
+    'version': 1,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'stream': sys.stderr,
+        }
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO'
+    }
 }
 
-TEMPLATE_CONTEXT_PROCESSORS = (
-   'shibboleth.context_processors.login_link',
-   'shibboleth.context_processors.logout_link'
-)
+# logging.config.dictConfig(LOGGING)
+
+LOGIN_URL = 'https://cisdev.sachabest.com/saml/Login'
+LOGOUT_SESSION_KEY = "byebye"
+
+SHIBBOLETH_ATTRIBUTE_MAP = {
+   "HTTP_REMOTE_USER": (True, "username"),
+   "HTTP_GIVENNAME": (True, "first_name"),
+   "HTTP_SN": (True, "last_name"),
+   "HTTP_REMOTE_USER": (False, "email"),
+   "HTTP_AFFILIATION": (True, "affiliation")
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
 STATIC_ROOT = '/static/'
 
-# SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-# SESSION_SAVE_EVERY_REQUEST = True
-# SESSION_COOKIE_AGE = 86400 # sec
-# SESSION_COOKIE_DOMAIN = None
-# SESSION_COOKIE_NAME = 'CISDEVSESSIONID'
-# SESSION_COOKIE_SECURE = False
-# SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+GITHUB_TOKEN = str(os.environ["GITHUB_MASTER_TOKEN"])
+GITHUB_USERNAME = str(os.environ["GITHUB_MASTER_USER"])
+GITHUB_CLIENT_ID = str(os.environ["GITHUB_CLIENT_ID"])
+GITHUB_CLIENT_SECRET = str(os.environ["GITHUB_CLIENT_SECRET"])

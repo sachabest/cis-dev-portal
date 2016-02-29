@@ -22,6 +22,8 @@ urlpatterns = [
   	url(r'^shib/', include('shibboleth.urls', namespace='shibboleth')),
     url(r'^dashboard', include('dashboard.urls')),
     url('', include('dashboard.urls')),
+    # url('', include('social.apps.django_app.urls', namespace='social'))
+
 ]
 urlpatterns += staticfiles_urlpatterns()
 

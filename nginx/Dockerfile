@@ -2,8 +2,9 @@ FROM matter/shibboleth-nginx
 ADD nginx.conf /etc/nginx/
 ADD default.conf /etc/nginx/conf.d/
 ADD private.key /etc/nginx/conf/ssl.key
-ADD shib3.xml /etc/shibboleth/shibboleth2.xml
-ADD shib3.xml /etc/shibboleth/shibboleth2.xml.tpl
+ADD shibboleth2.xml /etc/shibboleth/shibboleth2.xml
+ADD shibboleth2.xml /etc/shibboleth/shibboleth2.xml.tpl
+ADD upenn-metadata.xml /etc/shibboleth/
 ADD sachabest.com.crt /etc/nginx/conf/sachabest.com.crt
 EXPOSE 80 443 9090
 

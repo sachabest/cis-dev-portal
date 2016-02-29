@@ -1,0 +1,52 @@
+<div class="row">
+    <div class="col-md-8">
+        <div>
+            <h3>Latest Commits</h3>
+        </div>
+        <div class="commit-wrapper">
+            <table class="table table-bordered">
+                <thead>
+                    <td>Timestamp</td>
+                    <td>Hash</td>
+                    <td>Message</td>
+                    <td>Owner</td>
+                </thead>
+                <tbody>
+                    {% for commit in group.commits %}
+                        <tr>
+                            <td>{{commit.date}}</td>
+                            <td>{{commit.hash}}</td>
+                            <td>{{commit.message}}</td>
+                            <td>{{commit.owner}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div>
+            <h4>Group Members</h4>
+        </div>
+        <div class="member-wrapper">
+            <table class="table table-bordered">
+                <thead>
+                    <td>Full Name</td>
+                    <td>GitHub Username</td>
+                    <td>JIRA Username</td>
+                    <td>PennKey</td>
+                </thead>
+                <tbody>
+                    {% for member in group.students %}
+                        <tr>
+                            <td>{{member.display_name}}</td>
+                            <td>{{member.github_username}}</td>
+                            <td>{{member.jira_username}}</td>
+                            <td>{{member.pennkey}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

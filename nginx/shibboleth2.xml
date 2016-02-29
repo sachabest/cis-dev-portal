@@ -5,43 +5,6 @@
           xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata"
           clockSkew="180">
 
-    <EntityDescriptor entityID="https://idp.net.isc.upenn.edu/idp/shibboleth" xmlns="urn:oasis:names:tc:SAML:2.0:metadata" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:shibmd="urn:mace:shibboleth:metadata:1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-        <IDPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
-            <Extensions>
-                <shibmd:Scope regexp="false">upenn.edu</shibmd:Scope>
-            </Extensions>
-            <KeyDescriptor>
-                <ds:KeyInfo>
-                    <ds:X509Data>
-                        <ds:X509Certificate>
-MIIDNDCCAhygAwIBAgIJANofyJWqDW2UMA0GCSqGSIb3DQEBBQUAMCAxHjAcBgNV
-BAMTFWlkcC5uZXQuaXNjLnVwZW5uLmVkdTAeFw0xMTA5MjgxODMyMThaFw0zMTAz
-MzExODMyMThaMCAxHjAcBgNVBAMTFWlkcC5uZXQuaXNjLnVwZW5uLmVkdTCCASIw
-DQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAN1qCp35aonQghrJjZ3Nay+tCAgl
-Y4/Hk+qe72nMZNc25pMdR5X38A6C0hXMLqwNpZ5VoQgM01CJLRBQtz7JO8tiM7mJ
-OT7g1I9HatG0meczgZzFci+hZGvk5L3syW2dsy6fkl/ozH7e2/O5TPKEk2aZjjNh
-tNg1oGfuc1jR5EBeaF+Alh5lLfljVTVuURMnVvd5HwnwbaoAS5ItVZr3ZraQM9aF
-BN1ZGczdWgKaUytq19J7emYsIeiej1Vb5IM/mfsvN383ziHzlvCyEne8mESQKOSz
-Bpe0MzE32PH4h4kcObzMiMWobpnuI/PbwkogGcreXgLUkUyC6u4IK691X4cCAwEA
-AaNxMG8wTgYDVR0RBEcwRYIVaWRwLm5ldC5pc2MudXBlbm4uZWR1hixodHRwczov
-L2lkcC5uZXQuaXNjLnVwZW5uLmVkdS9pZHAvc2hpYmJvbGV0aDAdBgNVHQ4EFgQU
-D5rLB7vBmoNDFt3S9Sscz4nsWmkwDQYJKoZIhvcNAQEFBQADggEBAElgVcyMAoF9
-0FKJqonj+6A+4q3dxAEkN1lFtwQGAkeA5bGmRRcMvRiuneJc7749e+TiCYT1f6gn
-lkuhJxeIVs6NYNwm6GgcBJxcB6ulqiGHqRoz9VSPv6cRhLz//ErJiklQcBfMbRFW
-VQag5PnBKRK8pd+Wns+7bQQ45ce8Kdt2YU7EtJQMcbkCMX/ePtFXcDsnoS4SLt/Y
-+wB7R63o+hrpl8XNUoRY2yfR0OrFlkaCCgkJPSRYZViBs4IH1XcP9YSvhKKDmLCu
-DOt/L73blTIneixeZb4cbdZY/zLPsV3V+RLujrw5PUv8zRdFdwY43O+3tBovyUnO
-9+up+jEBtZ4=
-                        </ds:X509Certificate>
-                    </ds:X509Data>
-                </ds:KeyInfo>
-            </KeyDescriptor>
-            <SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://idp.net.isc.upenn.edu/idp/profile/SAML2/POST/SSO"/>
-            <SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://idp.net.isc.upenn.edu/idp/profile/SAML2/Redirect/SSO"/>
-        </IDPSSODescriptor>
-    </EntityDescriptor>
-
-    
     <!--
     By default, in-memory StorageService, ReplayCache, ArtifactMap, and SessionCache
     are used. See example-shibboleth2.xml for samples of explicitly configuring them.
@@ -60,12 +23,14 @@ DOt/L73blTIneixeZb4cbdZY/zLPsV3V+RLujrw5PUv8zRdFdwY43O+3tBovyUnO
         <RequestMap applicationId="client"
                     authType="shibboleth">
             <Host name="${CLIENT_APP_HOSTNAME:-your-app.localdomain.com}"
-                  requireSession="true">
+                authType="shibboleth"
+                requireSession="true"
+                redirectToSSL="443">
                 <Path name="${CLIENT_APP_SECURE_PATH:-/app}" />
+                <Path name="/" />
             </Host>
         </RequestMap>
     </RequestMapper>
-
 
     <!-- The ApplicationDefaults element is where most of Shibboleth's SAML bits are defined. -->
     <ApplicationDefaults entityID="http://FAKE-DOMAIN/NOT-USED"
@@ -82,7 +47,7 @@ DOt/L73blTIneixeZb4cbdZY/zLPsV3V+RLujrw5PUv8zRdFdwY43O+3tBovyUnO
         <Sessions lifetime="28800" timeout="3600" relayState="ss:mem"
                   handlerSSL="true"
                   checkAddress="false"
-                  cookieProps="http">
+                  cookieProps="https">
 
             <!--
             Configures SSO for a default IdP. To allow for >1 IdP, remove
@@ -112,9 +77,11 @@ DOt/L73blTIneixeZb4cbdZY/zLPsV3V+RLujrw5PUv8zRdFdwY43O+3tBovyUnO
         Allows overriding of error template information/filenames. You can
         also add attributes with values that can be plugged into the templates.
         -->
-        <Errors supportContact="iskandar@hellomatter.com"
+        <Errors supportContact="sachab@seas.upenn.edu"
                 helpLocation="/about.html"
                 styleSheet="/shibboleth-sp/main.css"/>
+
+        <MetadataProvider type="XML" path="upenn-metadata.xml"/>
 
         <!--
           - OpenIDP
@@ -163,7 +130,7 @@ DOt/L73blTIneixeZb4cbdZY/zLPsV3V+RLujrw5PUv8zRdFdwY43O+3tBovyUnO
                       cookieProps="https">
 
                 <!-- DEFAULT to OpenIdP -->
-                <SSO entityID="https://openidp.feide.no">
+                <SSO entityID="https://idp.net.isc.upenn.edu/idp/shibboleth">
                     SAML2 SAML1
                 </SSO>
 
