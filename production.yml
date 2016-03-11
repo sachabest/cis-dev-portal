@@ -9,7 +9,8 @@ web:
   volumes:
     - /usr/src/app/static
   env_file: .env
-  command: /usr/local/bin/gunicorn cis_dev_portal.wsgi:application -w 2 -b :8000
+  # entrypoint: ./docker-entrypoint.sh
+  command: /usr/local/bin/gunicorn cis_dev_portal.wsgi:application -w 2 -b 0.0.0.0:8000
 
 nginx:
   restart: always
@@ -29,8 +30,8 @@ nginx:
 postgres:
   restart: always
   image: postgres:latest
-  # volumes_from:
-  #   - data
+  volumes_from:
+    - data
   ports:
     - "5432:5432"
 
@@ -40,9 +41,9 @@ redis:
   ports:
     - "6379:6379"
 
-# data:
-#   restart: always
-#   image: postgres:latest
-#   volumes:
-#     - /var/lib/postgresql
-#   command: "true"
+data:
+  restart: always
+  image: postgres:latest
+  volumes:
+    - /var/lib/postgresql
+  command: "true"

@@ -20,7 +20,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
   	url(r'^shib/', include('shibboleth.urls', namespace='shibboleth')),
-    url(r'^dashboard', include('dashboard.urls')),
+    url(r'^dashboard/', include('dashboard.urls', namespace="dashboard")),
     url('', include('dashboard.urls')),
     # url('', include('social.apps.django_app.urls', namespace='social'))
 

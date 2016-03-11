@@ -5,4 +5,4 @@ redis==2.10.3
 django-angular
 django-compressor
 django-bootstrap3
-python-social-auth
+django-annoying

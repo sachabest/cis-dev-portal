@@ -3,8 +3,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.app_settings import GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET
-from .models import SiteApp
+from django.conf import settings
+from django.core.urlresolvers import reverse
+from .models import OAuthState
 from pprint import pprint
 from uuid import uuid4
 import urllib
@@ -15,7 +16,7 @@ auth_wall = loader.get_template("auth_wall.html")
 
 # @login_required
 def index(request):
-    app_list = SiteApp.objects
+    app_list = None
     template = loader.get_template('index.html')
     context = {
         'links': app_list,
@@ -27,35 +28,47 @@ def index(request):
         return HttpResponse(template.render(context, request))
 
 
-valid_github_states = {}
+def is_valid_state(state, user):
+    possible_states = OAuthState.objects.filter(user=user, active_flag=True)
+    for possible_state in possible_states:
+        if possible_state.key == state:
+            possible_state.active_flag = False
+            possible_state.save()
+            return True
 
-def is_valid_state(state, username):
-    return valid_github_states[username] == state
+def set_valid_state(state, user):
+    old_states = OAuthState.objects.filter(user=user)
+    for obj in old_states:
+        obj.active_flag = False
+        obj.save()
+    new_state = OAuthState(key=state, user=user, active_flag=True)
+    new_state.save()
 
 @login_required
 def link_github(request):
     state = str(uuid4())
-    valid_github_states[request.user.username] = state
-    save_created_state(state)
-    callback_url = request.build_aboslute_url(reverse('dashboard.views.github_handshake'))
-    params = {"client_id": GITHUB_CLIENT_ID,
+    set_valid_state(state, request.user)
+    logger.info("registered state %s for %s" % (state, request.user.username))
+    callback_url = request.build_absolute_uri(reverse('dashboard:github_handshake'))
+    params = {"client_id": settings.GITHUB_CLIENT_ID,
               "state": state,
               "redirect_uri": callback_url,
               "scope": "repo,user,admin:org"}
-    url = "https://github.com/login/oauth/authorize?" + urllib.urlencode(params)
+    url = "https://github.com/login/oauth/authorize?" + urllib.parse.urlencode(params)
     return HttpResponseRedirect(url)
 
 @login_required
 def github_handshake(request):
-    error = request.args.get('error', '')
+    error = request.GET.get('error', None)
     if error:
-        return "Error: " + error
-    state = request.args.get('state', '')
-    if not is_valid_state(state, request.user.username) \
-        or request.args.get['client_id'] != GITHUB_CLIENT_ID \
-        or reqeust.args.get['client_secret'] != GITHUB_CLIENT_SECRET:
-        abort(403)
+        logger.error("Bad github response.")
+        return HttpResponse(status=500)
+    state = request.GET['state']
+    if not is_valid_state(state, request.user):
+        logger.error("Bad github response.")
+        return HttpResponse(status=403)
     else:
-        valid_github_states[request.user.username] = None
-        request.user.github_token = request.body.split('=')[1]
-        return HttpResponseRedirect(reverse('dashboard.views.index'))
+        request.user.student.github_token = request.GET['code']
+        request.user.student.save()
+        logger.info("Auhtorising %s with %s" % (request.user.username, request.user.student.github_token))
+        return HttpResponseRedirect(reverse('dashboard:index'))

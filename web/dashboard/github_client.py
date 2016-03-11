@@ -14,5 +14,6 @@ def github_get_request(token, endpoint):
 def get_org_repos(token, org_name):
     return github_get_request(token, "/orgs/:" + org_name + "/repos")
 
-def get_repo_contributors
+def get_repo_contributors(token, repo_name):
+    
 # Move these to environment file when appropriate 

@@ -34,7 +34,7 @@ ADMINS = [
 # Application definition
 
 INSTALLED_APPS = [
-    'dashboard.apps.DashboardConfig',
+    'dashboard',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'shibboleth',
+    'annoying',
     # 'djng',
     'bootstrap3',
     # 'social.apps.django_app.default',
@@ -161,7 +162,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = '/static/'
 
-GITHUB_TOKEN = str(os.environ["GITHUB_MASTER_TOKEN"])
-GITHUB_USERNAME = str(os.environ["GITHUB_MASTER_USER"])
+# GITHUB_TOKEN = str(os.environ["GITHUB_MASTER_TOKEN"])
+# GITHUB_USERNAME = str(os.environ["GITHUB_MASTER_USER"])
 GITHUB_CLIENT_ID = str(os.environ["GITHUB_CLIENT_ID"])
 GITHUB_CLIENT_SECRET = str(os.environ["GITHUB_CLIENT_SECRET"])
+
+os.environ['wsgi.url_scheme'] = 'https'
+
