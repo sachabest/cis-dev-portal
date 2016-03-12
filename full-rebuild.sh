@@ -1,3 +1,4 @@
+#!/bin/bash
 echo 'switching to prod env'
 eval "$(docker-machine env production)"
 docker-compose build

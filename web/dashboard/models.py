@@ -9,6 +9,11 @@ from annoying.fields import AutoOneToOneField
 class Student(models.Model):
     user = AutoOneToOneField(User, primary_key=True)
     github_token = models.CharField(max_length=100)
+    github_username = models.CharField(max_length=50)
+    avatar = models.CharField(max_length=255)
+    jira_username = models.CharField(max_length=50)
+    jira_token = models.CharField(max_length=100)
+    jira_token_secret = models.CharField(max_length=100)
 
 class Project(models.Model):
 	name = models.CharField(max_length=255)
@@ -24,4 +29,9 @@ class Event(models.Model):
 class OAuthState(models.Model):
     key = models.CharField(max_length=50)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='oauthstate_user+')
+    active_flag = models.BooleanField(default=False)
+
+class SecretKeyState(models.Model):
+    key = models.CharField(max_length=50)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='secretkeystate_user+')
     active_flag = models.BooleanField(default=False)

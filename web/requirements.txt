@@ -6,3 +6,11 @@ django-angular
 django-compressor
 django-bootstrap3
 django-annoying
+tlslite
+PyCrypto
+PyJWT
+cryptography
+oauthlib
+requests
+requests-oauthlib
+jira

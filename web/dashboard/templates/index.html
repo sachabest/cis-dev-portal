@@ -39,7 +39,27 @@
         </div>
         <div class="col-md-4">
             <h2>Sprint Information</h2>
-            
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <td>Issue #</td>
+                        <td>Description</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if not issues %}
+                        <tr>
+                            <td colspan=4>You are not currently assigned any issues..</td>
+                        </tr>
+                    {% endif %}
+                    {% for issue in issues %}
+                        <tr>
+                            <td>{{ issue.key }}</td>
+                            <td>{{ issue.fields.description }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

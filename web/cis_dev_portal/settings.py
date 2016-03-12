@@ -140,6 +140,7 @@ LOGGING = {
 # logging.config.dictConfig(LOGGING)
 
 LOGIN_URL = 'https://cisdev.sachabest.com/saml/Login'
+LOGOUT_URL = "https://cisdev.sachabest.com/saml/Logout"
 LOGOUT_SESSION_KEY = "byebye"
 
 SHIBBOLETH_ATTRIBUTE_MAP = {
@@ -162,10 +163,20 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = '/static/'
 
-# GITHUB_TOKEN = str(os.environ["GITHUB_MASTER_TOKEN"])
-# GITHUB_USERNAME = str(os.environ["GITHUB_MASTER_USER"])
 GITHUB_CLIENT_ID = str(os.environ["GITHUB_CLIENT_ID"])
 GITHUB_CLIENT_SECRET = str(os.environ["GITHUB_CLIENT_SECRET"])
 
 os.environ['wsgi.url_scheme'] = 'https'
 
+PRIVATE_KEY_LOCATION = str(os.environ["PRIVATE_KEY_LOCATION"])
+
+# JIRA
+JIRA_SETTINGS = {
+    'consumer_key' : str(os.environ["JIRA_CLIENT_ID"]),
+    'consumer_secret' : str(os.environ["JIRA_CLIENT_SECRET"]),
+    'jira_base_url' : 'https://jira.cis350.cis.upenn.edu',
+    'request_token_url' : 'https://jira.cis350.cis.upenn.edu' + '/plugins/servlet/oauth/request-token',
+    'access_token_url' : 'https://jira.cis350.cis.upenn.edu' + '/plugins/servlet/oauth/access-token',
+    'authorize_url' : 'https://jira.cis350.cis.upenn.edu' + '/plugins/servlet/oauth/authorize',
+    'data_url' : 'https://jira.cis350.cis.upenn.edu' + '/rest/api/2/issue/BULK-1',
+}
