@@ -26,7 +26,8 @@ def index(request):
     else:
         context = {
             'links': app_list,
-            'user' : request.user, 
+            'user' : request.user,
+            'jira_url' : settings.JIRA_SETTINGS['jira_base_url']
         }
         if request.user.student.github_username:
             context['groups'] = get_org_repos(request.user.student.github_token, 'cis-upenn')

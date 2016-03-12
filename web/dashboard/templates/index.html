@@ -54,7 +54,7 @@
                     {% endif %}
                     {% for issue in issues %}
                         <tr>
-                            <td>{{ issue.key }}</td>
+                            <td><a href="{{ issue.permalink }}">{{ issue.key }}</a></td>
                             <td>{{ issue.fields.description }}</td>
                         </tr>
                     {% endfor %}
