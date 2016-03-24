@@ -10,6 +10,8 @@ class Student(models.Model):
     user = AutoOneToOneField(User, primary_key=True)
     github_token = models.CharField(max_length=100)
     github_username = models.CharField(max_length=50)
+    major = models.CharField(max_length=5)
+    year = models.IntegerField()
     avatar = models.CharField(max_length=255)
     jira_username = models.CharField(max_length=50)
     jira_token = models.CharField(max_length=100)
@@ -17,6 +19,7 @@ class Student(models.Model):
 
 class Project(models.Model):
 	name = models.CharField(max_length=255)
+    number = models.IntegerField()
 	client_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='project_client_user+')
 	pm_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='project_pm_user+')
 
