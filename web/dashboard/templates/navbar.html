@@ -35,19 +35,22 @@
                         {% if user.student.github_username %}
                             <li><a href="https://github.com/{{ user.student.github_username }}">GitHub ({{ user.student.github_username }})</a></li>
                         {% else %}
-                            <li><a href="{% url 'github_linker' %}">Link your Github</a></li>
+                            <li><a href="{% url 'dashboard:github_linker' %}">Link your Github</a></li>
                         {% endif %}
                         {% if user.student.jira_username %}
                             <li><a href="https://jira.cis35.cis.upenn.edu/">JIRA ({{ user.student.jira_username }})</a></li>
                         {% else %}
-                            <li><a href="{% url 'github_linker' %}">Link your JIRA</a></li>
+                            <li><a href="{% url 'dashboard:jira_linker' %}">Link your JIRA</a></li>
                         {% endif %}
                         <li class="divider"></li>
+                        {% if user.student.role <= 1 %}
+                            <li><a href="{% url 'dashboard:uploader' %}">Seed Class Data</a></li>
+                        {% endif %}
                         <li><a href="{{ logout_link }}">Log Out</a></li>
                     </ul>
                 </li>
             {% else %}
-                <li><a href="{{ login_link }}">Log In</a></li>
+                <li><a href="{{ login_link }}dashboard">Log In</a></li>
             {% endif %}
         </ul>
     </div>

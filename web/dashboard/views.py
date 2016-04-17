@@ -6,9 +6,11 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from .models import OAuthState
+from .forms import UploaderForm
 from pprint import pprint
 from uuid import uuid4
 import urllib, logging
+from .uploader import parse_input_csv
 from .github_client import *
 from .jira_client import *
 
@@ -55,6 +57,22 @@ def set_valid_state(state, user, jira=False):
         obj.save()
     new_state = OAuthState(key=state, user=user, active_flag=True)
     new_state.save()
+
+@login_required
+def uploader(request):
+    if request.method == 'GET':
+        form = UploaderForm()
+        return render(request, 'uploader.html', {'form' : form})
+    elif request.method == 'POST':
+        form = UploaderForm(request.POST, request.FILES)
+        logger.info("Checking uploader submission form...")
+        projects = {}
+        if form.is_valid():
+            projects = parse_input_csv(request.FILES['student_list'], \
+                request.FILES['project_list'])
+            logger.info("Uploader form accepted. Redirecting...")
+        return render(request, 'uploader.html', {'form': form, 'invalid' : form.errors, \
+            'projects' : projects})
 
 @login_required
 def link_jira(request):
