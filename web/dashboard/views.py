@@ -59,6 +59,22 @@ def set_valid_state(state, user, jira=False):
     new_state.save()
 
 @login_required
+def students(request):
+    if request.method == 'GET':
+        return render(request, 'students.html', {'students' : User.objects.all()})
+
+@login_required
+def project(request, num=1):
+    if request.method == 'GET':
+        project = Project.objects.get(number=num)
+        return render(request, 'project.html', {'project' : project})
+
+@login_required
+def projects(request):
+    if request.method == 'GET':
+        return render(request, 'students.html', {'projects' : Project.objects.all()})
+
+@login_required
 def uploader(request):
     if request.method == 'GET':
         form = UploaderForm()
@@ -67,9 +83,12 @@ def uploader(request):
         form = UploaderForm(request.POST, request.FILES)
         logger.info("Checking uploader submission form...")
         projects = {}
+        project_mappings = {}
         if form.is_valid():
-            projects = parse_input_csv(request.FILES['student_list'], \
+            (projects, project_mappings) = parse_input_csv(request.FILES['student_list'], \
                 request.FILES['project_list'])
+            for project in projects:
+                project.students = project_mappings[project.number]
             logger.info("Uploader form accepted. Redirecting...")
         return render(request, 'uploader.html', {'form': form, 'invalid' : form.errors, \
             'projects' : projects})

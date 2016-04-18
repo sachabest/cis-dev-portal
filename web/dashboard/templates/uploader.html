@@ -24,12 +24,12 @@
                                 <td>{{ project.number }}</td>
                                 <td>{{ project.name }}</td>
                                 <td>
-                                    {% for student in members %}
-                                        <a href="{{student.github}}">{{student.first_name}}</a> 
+                                    {% for student in project.students %}
+                                        <div>{{student.displayName}} ({{student.username}})</div> 
                                     {% endfor %}
                                 </td>
                                 <td>
-                                    {{ project.client_user.first_name}} {{project.client_user.last_name}}
+                                    {{ project.client_user.username }}
                                     <a href="mailto://{{project.client_user.email}}">{{project.client_user.email}}</a>
                                 </td>
                             </tr>

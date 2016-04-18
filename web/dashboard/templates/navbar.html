@@ -16,9 +16,8 @@
     </div>
     <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-            <li ng-repeat="link in links">
-                <a href="" ng-click="link.url">{{link.name}}</a>
-            </li>
+            <li><a href="{% url 'dashboard:students' %}">Students</a></li>
+            <li><a href="{% url 'dashboard:projects' %}">Projects</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             {% if user and user.is_authenticated %}

@@ -37,15 +37,17 @@ def parse_input_csv(csv_file_wrapper, project_file_wrapper):
         new_projects[project_number] = new_project
 
     data = csv.reader(csv_file_wrapper.read().decode(encoding='UTF-8').splitlines())
+    project_mapping = {}
     for row in data:
         username = row[2] + "@upenn.edu"
         try:
             student = User.objects.get(username=username)
         except:
             student = User(username=username)
-        student.save()
-        student.student = Student()
-        student.student.displayName = "Not Registered"
+            student.first_name = "Not"
+            student.last_name = "Registered"
+            student.save()
+            student.student = Student()
         student.student.year = row[1]
         student.student.major = row[3]
         student.student.save()
@@ -54,5 +56,9 @@ def parse_input_csv(csv_file_wrapper, project_file_wrapper):
         project_number = int(row[4])
         new_project = new_projects[project_number]
         student.student.project = new_project
+        student.student.save()
+        if project_number not in project_mapping:
+            project_mapping[project_number] = []
+        project_mapping[project_number].append(student)
 
-    return new_projects.values()
+    return (new_projects.values(), project_mapping)

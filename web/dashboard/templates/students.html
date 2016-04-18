@@ -1,0 +1,37 @@
+{% include "navbar.html" %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <td>First Name</td>
+                        <td>Last Name</td>
+                        <td>PennKey</td>
+                        <td>Year</td>
+                        <td>Major</td>
+                        <td>Project</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in students %}
+                        <tr>
+                            <td>{{ user.first_name }}</td>
+                            <td>{{ user.last_name }}</td>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.student.year }}</td>
+                            <td>{{ user.student.major }}</td>
+                            {% if user.student.project %}
+                                <td><a href="{% url 'dashboard:project' num=user.student.project.number %}">
+                                    {{ user.student.project.name }}</a></td>
+                            {% else %}
+                                <td></td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
