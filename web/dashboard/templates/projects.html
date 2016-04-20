@@ -1,0 +1,28 @@
+{% include "navbar.html" %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <td>Number</td>
+                        <td>Name</td>
+                        <td>PM</td>
+                        <td>Customer</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for project in projects %}
+                        <tr>
+                            <td>{{ project.number }}</td>
+                            <td>{{ project.name }}</td>
+                            <td>{{ project.pm_user.username }}</td>
+                            <td>{{ project.client_user.username }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

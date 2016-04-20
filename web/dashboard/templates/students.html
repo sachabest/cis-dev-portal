@@ -20,7 +20,7 @@
                             <td>{{ user.first_name }}</td>
                             <td>{{ user.last_name }}</td>
                             <td>{{ user.username }}</td>
-                            <td>{{ user.student.year }}</td>
+                            <td>{{ user.yearformat }}</td>
                             <td>{{ user.student.major }}</td>
                             {% if user.student.project %}
                                 <td><a href="{% url 'dashboard:project' num=user.student.project.number %}">

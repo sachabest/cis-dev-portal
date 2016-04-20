@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.core.urlresolvers import reverse
-from .models import OAuthState
+from .models import OAuthState, Project, Student
 from .forms import UploaderForm
 from pprint import pprint
 from uuid import uuid4
@@ -61,7 +61,19 @@ def set_valid_state(state, user, jira=False):
 @login_required
 def students(request):
     if request.method == 'GET':
-        return render(request, 'students.html', {'students' : User.objects.all()})
+        users = User.objects.all()
+        for user in users:
+            if user.student.year == 1:
+                user.yearformat = 'Freshman'
+            elif user.student.year == 2:
+                user.yearformat = 'Sophomore'
+            elif user.student.year == 3:
+                user.yearformat = 'Junior'
+            elif user.student.year == 4:
+                user.yearformat = 'Senior'
+            else:
+                user.yearformat = 'Unknown'
+        return render(request, 'students.html', {'students' : users})
 
 @login_required
 def project(request, num=1):
@@ -72,7 +84,9 @@ def project(request, num=1):
 @login_required
 def projects(request):
     if request.method == 'GET':
-        return render(request, 'students.html', {'projects' : Project.objects.all()})
+        projects = Project.objects.all()
+        logger.info(projects)
+        return render(request, 'projects.html', {'projects' : projects})
 
 @login_required
 def uploader(request):

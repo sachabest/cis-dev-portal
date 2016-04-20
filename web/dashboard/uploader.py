@@ -31,8 +31,12 @@ def parse_input_csv(csv_file_wrapper, project_file_wrapper):
             customer_user = User(username=customer_username)
         pm_user.save()
         customer_user.save()
-        new_project = Project(name=row[0], number=project_number, pm_user=pm_user, \
-            client_user=customer_user)
+        try:
+            new_project = Projects.objects.get(number=project_number)
+        except:
+            new_project = Project(name=row[0], number=project_number, pm_user=pm_user, \
+                client_user=customer_user)
+        new_project.save()
         # set pm_user and customer_user later
         new_projects[project_number] = new_project
 
