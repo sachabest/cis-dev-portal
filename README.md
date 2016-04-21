@@ -21,10 +21,10 @@ production ```
 
 Now, to build and deploy directly to production, do the following from the root of the repository:
 
-``` docker-machine env production ```
-```  eval $(docker-machine env production) ```
-``` ./full-rebuild.sh ```
-``` ./makenmigrate.sh ```
+```bash docker-machine env production ```
+```bash  eval $(docker-machine env production) ```
+```bash ./full-rebuild.sh ```
+```bash ./makenmigrate.sh ```
 
 You now have a fully built, deployed instance of the site complete with configured PostgreSQL. 
 
