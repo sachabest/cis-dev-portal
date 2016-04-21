@@ -16,6 +16,8 @@ See [Issues](https://github.com/sachabest/cis599/issues)
 
 ## Deployment and Building Instructions
 
+NOTE: You will need my private key files and cert files for your domain (in my case, sachabest.com) to deploy the website succesfullly as it relies on SSL. Those keys and certs are not included on GitHub for security reasons. 
+
 Assuming you have Docker installed on your machine as well as a DigitalOcean account, deployment is a breeze. Run the following command to create a droplet configured by Docker:
 
 ```bash
