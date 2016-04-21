@@ -14,10 +14,12 @@ CIS 599 - Independent Study
 
 Assuming you have Docker installed on your machine as well as a DigitalOcean account, deployment is a breeze. Run the following command to create a droplet configured by Docker:
 
-``` docker-machine create \
+```bash
+docker-machine create \
 -d digitalocean \
 --digitalocean-access-token=ADD_YOUR_TOKEN_HERE \
-production ```
+production
+```
 
 Now, to build and deploy directly to production, do the following from the root of the repository:
 
