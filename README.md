@@ -1,4 +1,4 @@
-# cis599
+# UPenn CIS Development Portal
 CIS 599 - Independent Study
 
 ## Technology Used
