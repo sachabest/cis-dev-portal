@@ -10,6 +10,10 @@ CIS 599 - Independent Study
 * Redis: in memory DB
 * Postgres: SQL backend for Django
 
+## TODO
+
+See [Issues](issues)
+
 ## Deployment and Building Instructions
 
 Assuming you have Docker installed on your machine as well as a DigitalOcean account, deployment is a breeze. Run the following command to create a droplet configured by Docker:
