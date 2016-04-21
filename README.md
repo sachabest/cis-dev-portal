@@ -12,7 +12,7 @@ CIS 599 - Independent Study
 
 ## TODO
 
-See [Issues](issues)
+See [Issues](https://github.com/sachabest/cis599/issues)
 
 ## Deployment and Building Instructions
 
