@@ -34,3 +34,6 @@ def github_populate_information(student):
     json = github_get_request(student.github_token, "/user")
     student.github_username = json["login"]
     student.avatar = json["avatar_url"]
+
+def get_repo_commits(token, org_name, repo_name):
+    return github_get_request(token, "/repos/" + org_name + "/" + repo_name + "/commits")

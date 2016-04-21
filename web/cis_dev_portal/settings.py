@@ -180,3 +180,7 @@ JIRA_SETTINGS = {
     'authorize_url' : 'https://jira.cis350.cis.upenn.edu' + '/plugins/servlet/oauth/authorize',
     'data_url' : 'https://jira.cis350.cis.upenn.edu' + '/rest/api/2/issue/BULK-1',
 }
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]

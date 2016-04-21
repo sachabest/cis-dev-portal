@@ -79,7 +79,12 @@ def students(request):
 def project(request, num=1):
     if request.method == 'GET':
         project = Project.objects.get(number=num)
-        return render(request, 'project.html', {'project' : project})
+        students = User.objects.filter(student__project=project)
+        commits = get_repo_commits(request.user.student.github_token, 'cis-upenn', \
+            str(project.number) + '-' + project.name.replace(' ', '-'))
+        logger.info(commits)
+        return render(request, 'project.html', {'project' : project, 'students' : students, \
+            'commits' : commits})
 
 @login_required
 def projects(request):

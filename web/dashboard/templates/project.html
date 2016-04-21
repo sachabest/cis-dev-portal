@@ -1,52 +1,67 @@
-<div class="row">
-    <div class="col-md-8">
-        <div>
-            <h3>Latest Commits</h3>
-        </div>
-        <div class="commit-wrapper">
-            <table class="table table-bordered">
-                <thead>
-                    <td>Timestamp</td>
-                    <td>Hash</td>
-                    <td>Message</td>
-                    <td>Owner</td>
-                </thead>
-                <tbody>
-                    {% for commit in group.commits %}
-                        <tr>
-                            <td>{{commit.date}}</td>
-                            <td>{{commit.hash}}</td>
-                            <td>{{commit.message}}</td>
-                            <td>{{commit.owner}}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+{% include "navbar.html" %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Group {{ project.number }}: {{ project.name }}</h2>
         </div>
     </div>
-    <div class="col-md-4">
-        <div>
-            <h4>Group Members</h4>
+    <div class="row">
+        <div class="col-md-7">
+            <div>
+                <h3>Latest Commits</h3>
+            </div>
+            <div class="commit-wrapper">
+                <table class="table table-bordered table-commits" width="100%">
+                    <colgroup>
+                        <col class="col-md-2">
+                        <col class="col-md-2">
+                        <col class="col-md-6">
+                        <col class="col-md-2">
+                    </colgroup>
+                    <thead>
+                        <td>Hash</td>
+                        <td>Time</td>
+                        <td>Message</td>
+                        <td>Owner</td>
+                    </thead>
+                    <tbody>
+                        {% for commit in commits %}
+                            <tr>
+                                <td class="dotdot"><a href="{{commit.html_url}}">{{commit.sha}}</a></td>
+                                <td class="dotdot">{{commit.commit.committer.date}}</td>
+                                <td class="dotdot">{{commit.commit.message}}</td>
+                                <td class="dotdot">{{commit.author.login}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="member-wrapper">
-            <table class="table table-bordered">
-                <thead>
-                    <td>Full Name</td>
-                    <td>GitHub Username</td>
-                    <td>JIRA Username</td>
-                    <td>PennKey</td>
-                </thead>
-                <tbody>
-                    {% for member in group.students %}
-                        <tr>
-                            <td>{{member.display_name}}</td>
-                            <td>{{member.github_username}}</td>
-                            <td>{{member.jira_username}}</td>
-                            <td>{{member.pennkey}}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        <div class="col-md-5">
+            <div>
+                <h3>Group Members</h3>
+            </div>
+            <div class="member-wrapper">
+                <table class="table table-bordered">
+                    <thead>
+                        <td>Full Name</td>
+                        <td>GitHub Username</td>
+                        <td>JIRA Username</td>
+                        <td>PennKey</td>
+                    </thead>
+                    <tbody>
+                        {% for member in students %}
+                            <tr>
+                                <td>{{member.first_name}} {{member.last_name}}</td>
+                                <td>{{member.student.github_username}}</td>
+                                <td>{{member.student.jira_username}}</td>
+                                <td>{{member.username}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

@@ -17,6 +17,7 @@ class Student(models.Model):
     jira_username = models.CharField(max_length=50)
     jira_token = models.CharField(max_length=100)
     jira_token_secret = models.CharField(max_length=100)
+    project = models.ForeignKey('Project', null=True, on_delete=models.CASCADE, related_name='student_project+')
 
 class Project(models.Model):
     name = models.CharField(max_length=255)

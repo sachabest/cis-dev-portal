@@ -10,6 +10,8 @@
 {# Display django.contrib.messages as Bootstrap alerts #}
 {% bootstrap_messages %}
 
+<link href="/static/main.css" rel="stylesheet">
+
 <nav class="navbar navbar-default">
     <div class="navbar-header">
         {% if user.is_authenticated %}

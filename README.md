@@ -10,6 +10,30 @@ CIS 599 - Independent Study
 * Redis: in memory DB
 * Postgres: SQL backend for Django
 
+## Deployment and Building Instructions
+
+Assuming you have Docker installed on your machine as well as a DigitalOcean account, deployment is a breeze. Run the following command to create a droplet configured by Docker:
+
+``` docker-machine create \
+-d digitalocean \
+--digitalocean-access-token=ADD_YOUR_TOKEN_HERE \
+production ```
+
+Now, to build and deploy directly to production, do the following from the root of the repository:
+
+``` docker-machine env production ```
+```  eval $(docker-machine env production) ```
+``` ./full-rebuild.sh ```
+``` ./makenmigrate.sh ```
+
+You now have a fully built, deployed instance of the site complete with configured PostgreSQL. 
+
+Now that you're up and running, I've included a useful tool to help rapid building. You can manually run ``` ./soft-rebuild.sh ``` or do the following
+
+``` ./watcher.py soft-rebuild.sh . ```
+
+to auto rebuild the site on any saved file inside the root directory. This is the equivalent of ``` rake watch ``` in Ruby. 
+
 ## Repository Organization
 
 * ```nginx/```: holds configuration files for nginx

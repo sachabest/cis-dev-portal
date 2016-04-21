@@ -1,5 +1,12 @@
 /* custom styles */
 
-.container {
-  max-width: 500px;
+.dotdot {
+    word-break: break-all;
+    text-overflow: ellipsis;
+}
+
+.table-commits {
+    td {
+        display: block;
+    }
 }
